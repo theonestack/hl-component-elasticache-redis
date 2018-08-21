@@ -70,7 +70,7 @@ CloudFormation do
     Tags tags + [{ Key: 'Name', Value: FnJoin('-', [ Ref(:EnvironmentName), component_name, 'cache-cluster' ]) }]
   }
 
-  record = (defined? dns_record ? "#{dns_record}" : 'redis')
+  record = (defined?(dns_record) ? "#{dns_record}" : 'redis')
 
   Route53_RecordSet(:RedisHostRecord) {
     HostedZoneName FnJoin('', [ Ref(:EnvironmentName), '.', Ref(:DnsDomain), '.'])
