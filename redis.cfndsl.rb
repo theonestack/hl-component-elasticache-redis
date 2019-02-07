@@ -57,7 +57,7 @@ CloudFormation do
     # TransitEncryptionEnabled true
 
     AutomaticFailoverEnabled FnIf(:FailOver, true, false)
-    NumCacheClusters Ref(:CacheClusters)
+    NumCacheClusters FnIf(:Cluster, Ref(:CacheClusters), Ref('AWS::NoValue'))
 
     NumNodeGroups FnIf(:Cluster, Ref(:NumNodeGroups), 1)
     ReplicasPerNodeGroup FnIf(:Cluster, Ref(:ReplicasPerNodeGroup), 0)
