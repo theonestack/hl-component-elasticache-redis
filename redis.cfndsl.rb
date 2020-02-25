@@ -2,7 +2,6 @@ CloudFormation do
 
   Condition(:FailOver, FnNot(FnEquals(Ref(:CacheClusters), '1')))
   Condition(:Cluster, FnEquals(Ref(:Cluster), 'true'))
-  az_conditions_resources('SubnetCache', maximum_availability_zones)
 
   tags = []
   tags << { Key: 'Environment', Value: Ref(:EnvironmentName) }
@@ -19,7 +18,7 @@ CloudFormation do
 
   ElastiCache_SubnetGroup(:RedisSubnetGroup) {
     Description FnJoin('',[ Ref(:EnvironmentName), 'redis parameter group'] )
-    SubnetIds az_conditional_resources('SubnetCache', maximum_availability_zones)
+    SubnetIds Ref('SubnetIds')
   }
 
   ElastiCache_ParameterGroup(:RedisParameterGroup) {
