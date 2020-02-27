@@ -26,3 +26,5 @@ security_group_rules:
 ip_blocks:
   public:
     - 0.0.0.0/0
+
+enable_encryption: true
