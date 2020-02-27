@@ -23,13 +23,13 @@ CfhighlanderTemplate do
 
     ComponentParam 'Subnets', type: 'CommaDelimitedList'
 
-    ComponentParam 'NumNodeGroups', '1'
+    ComponentParam 'NumNodeGroups', 1
 
-    ComponentParam 'NumCacheClusters', '2',
-      allowedValues: ['2', '3', '4', '5', '6']
+    ComponentParam 'NumCacheClusters', 2,
+      allowedValues: [2, 3, 4, 5, 6]
 
-    ComponentParam 'ReplicasPerNodeGroup', '0',
-      allowedValues: ['0', '1', '2', '3', '4', '5']
+    ComponentParam 'ReplicasPerNodeGroup', 0,
+      allowedValues: [0, 1, 2, 3, 4, 5]
 
   end
 
