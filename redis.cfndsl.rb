@@ -18,8 +18,13 @@ CloudFormation do
     Tags redis_tags
   }
 
+  Output(:RedisSecurityGroupId) {
+    Value Ref(:SecurityGroupRedis)
+    Export FnSub("${EnvironmentName}-#{external_parameters[:component_name]}-RedisSecurityGroup")
+  }
+
   ElastiCache_SubnetGroup(:SubnetGroupRedis) {
-    Description FnJoin('',[ Ref(:EnvironmentName), 'redis parameter group'] )
+    Description FnSub("${EnvironmentName}-#{external_parameters[:component_name]}")
     SubnetIds Ref(:Subnets)
   }
 
@@ -99,11 +104,12 @@ CloudFormation do
 
   }
 
+  dns_domain = external_parameters.fetch(:dns_domain)
   record = external_parameters.fetch(:record, 'redis')
 
   Route53_RecordSet(:HostRecordRedis) {
-    HostedZoneName FnSub("${EnvironmentName}.${DnsDomain}.")
-    Name FnSub("#{record}.${EnvironmentName}.${DnsDomain}.")
+    HostedZoneName FnSub("#{dns_domain}.")
+    Name FnSub("#{record}.#{dns_domain}.")
     Type 'CNAME'
     TTL '60'
     ResourceRecords [ FnGetAtt(:ReplicationGroupRedis, record_endpoint) ]
