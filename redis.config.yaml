@@ -1,34 +1,30 @@
-maximum_availability_zones: 5
-component_version: 1.0.0
-
-# Restore
-restore_from_s3: false
-restore_from_snapshot: false
-
 # engine_version: 4.0.10
-family: redis4.0
+# family: redis4.0
 
-minor_upgrade: true
-encrypt: true
+# cluster_enabled: true
+# automatic_failover: true 
 
+# replication_mode: cache_cluster | node_group
+
+# minor_upgrade: true
+
+# enable_encryption: false
+# kms_key_id: arn:aws:kms:ap-southeast-2:111111111111:key/12345678-1234-1234-1234-111111111111
+  
 # maintenance_window: sun:03:25-sun:05:30
 # snapshot_window: 00:30-02:30
+      
+# parameters:
+#   maxmemory-policy: allkeys-lru
 
-parameters:
-  maxmemory-policy: allkeys-lru
-#
 # redis_port: 6379
 
-security_groups:
--
-  rules:
-  -
-    IpProtocol: tcp
-    FromPort: 6379
-    ToPort: 6379
-  ips:
-  - stack
-
-ip_blocks:
-  local:
-  - 169.254.169.254/32
+# record: redis
+      
+# security_group_rules:
+#   -
+#     protocol: tcp
+#     from: 6379
+#     to: 6379
+#     ip_blocks:
+#       - stack

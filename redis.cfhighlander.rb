@@ -1,33 +1,36 @@
 CfhighlanderTemplate do
-  Name 'ElastiCacheRedis'
-  Description "#{component_name} - #{component_version}"
-  ComponentVersion component_version
+  Name 'redis'
+  Description "redis - #{component_version}"
 
-  DependsOn 'vpc'
+  DependsOn 'lib-ec2@0.1.0'
 
   Parameters do
-    ComponentParam 'VPCId'
-    ComponentParam 'StackOctet', isGlobal: true
+    
     ComponentParam 'EnvironmentName', 'dev', isGlobal: true
-    ComponentParam 'EnvironmentType', 'development', isGlobal: true, allowedValues: ['development', 'production']
+
+    ComponentParam 'EnvironmentType', 'development', 
+        allowedValues: ['development','production'], isGlobal: true
+
     ComponentParam 'DnsDomain'
-    ComponentParam 'CacheInstanceType'
 
-    ComponentParam 'S3Snapshot', '' if restore_from_s3
-    ComponentParam 'Snapshot', '' if restore_from_snapshot
+    ComponentParam 'SnapshotName'
+    ComponentParam 'SnapshotArns', type: 'CommaDelimitedList'
+    ComponentParam 'SnapshotRetentionLimit'
 
-    ComponentParam 'CacheClusters', 1, allowedValues: [1,2,3,4,5,6]
-    ComponentParam 'Cluster', 'false', allowedValues: ['true','false']
-    ComponentParam 'NumNodeGroups', 1
-    ComponentParam 'ReplicasPerNodeGroup', 0, allowedValues: [0,1,2,3,4,5]
+    ComponentParam 'VPCId', type: 'AWS::EC2::VPC::Id'
 
-    MappingParam 'SnapshotRetentionLimit', 0 do
-      map 'EnvironmentType'
-      attribute 'SnapshotRetentionLimit'
-    end
+    ComponentParam 'InstanceType', 't3.small'
 
-    maximum_availability_zones.times do |az|
-      ComponentParam "SubnetCache#{az}"
-    end
+    ComponentParam 'Subnets', type: 'CommaDelimitedList'
+
+    ComponentParam 'NumNodeGroups', '1'
+
+    ComponentParam 'NumCacheClusters', '2',
+      allowedValues: ['2', '3', '4', '5', '6']
+
+    ComponentParam 'ReplicasPerNodeGroup', '0',
+      allowedValues: ['0', '1', '2', '3', '4', '5']
+
   end
+
 end
