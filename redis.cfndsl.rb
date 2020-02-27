@@ -82,8 +82,14 @@ CloudFormation do
       NumCacheClusters Ref(:NumCacheClusters)
     end 
 
-    SnapshotName Ref(:SnapshotName)
-    SnapshotArns Ref(:SnapshotArns)
+    snapshot_type = external_parameters.fetch(:snapshot_type, nil)
+
+    if snapshot_type.eql?('native')
+      SnapshotName Ref(:SnapshotName)
+    elsif snapshot_type.eql?('s3')
+      SnapshotArns Ref(:SnapshotArns)
+    end unless snapshot_type.nil?
+
     SnapshotRetentionLimit Ref(:SnapshotRetentionLimit)
 
     SnapshotWindow snapshot_window unless snapshot_window.nil?

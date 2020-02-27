@@ -13,8 +13,11 @@ CfhighlanderTemplate do
 
     ComponentParam 'DnsDomain'
 
-    ComponentParam 'SnapshotName', nil
-    ComponentParam 'SnapshotArns', nil, type: 'CommaDelimitedList'
+    if snapshot_type.eql?('native')
+      ComponentParam 'SnapshotName'
+    elsif snapshot_type.eql?('s3')
+      ComponentParam 'SnapshotArns', type: 'CommaDelimitedList'
+    end if defined? snapshot_type
 
     ComponentParam 'SnapshotRetentionLimit'
 
