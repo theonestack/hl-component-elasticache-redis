@@ -1,13 +1,18 @@
+# Engine version is not set by default, this value must be provided
 # engine_version: 4.0.10
 # family: redis4.0
 
+# If cluster_enabled is true, automatic_failover must also be true.
 # cluster_enabled: true
 # automatic_failover: true 
 
-# replication_mode: cache_cluster | node_group
+# If replication_mode is set to cache_cluster, you can set the NumCacheClusters property
+# If it is set to node_group, you can set the NumNodeGroups and ReplicasPerNodeGroup properties
+replication_mode:  node_group # | cache_cluster
 
 # minor_upgrade: true
 
+# If encryption is enabled you can optionally proide a KMS key id, otherwise it will use the default
 # enable_encryption: false
 # kms_key_id: arn:aws:kms:ap-southeast-2:111111111111:key/12345678-1234-1234-1234-111111111111
   

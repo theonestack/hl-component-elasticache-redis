@@ -13,8 +13,9 @@ CfhighlanderTemplate do
 
     ComponentParam 'DnsDomain'
 
-    ComponentParam 'SnapshotName'
-    ComponentParam 'SnapshotArns', type: 'CommaDelimitedList'
+    ComponentParam 'SnapshotName', nil
+    ComponentParam 'SnapshotArns', nil, type: 'CommaDelimitedList'
+
     ComponentParam 'SnapshotRetentionLimit'
 
     ComponentParam 'VPCId', type: 'AWS::EC2::VPC::Id'
@@ -23,13 +24,14 @@ CfhighlanderTemplate do
 
     ComponentParam 'Subnets', type: 'CommaDelimitedList'
 
-    ComponentParam 'NumNodeGroups', 1
-
-    ComponentParam 'NumCacheClusters', 2,
-      allowedValues: [2, 3, 4, 5, 6]
-
-    ComponentParam 'ReplicasPerNodeGroup', 0,
+    if replication_mode.eql?('node_group')
+      ComponentParam 'NumNodeGroups', 1
+      ComponentParam 'ReplicasPerNodeGroup', 0,
       allowedValues: [0, 1, 2, 3, 4, 5]
+    elsif replication_mode.eql?('cache_cluster')
+      ComponentParam 'NumCacheClusters', 2,
+        allowedValues: [2, 3, 4, 5, 6]
+    end
 
   end
 
