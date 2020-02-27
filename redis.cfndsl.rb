@@ -78,7 +78,7 @@ CloudFormation do
     if replication_mode.eql?('node_group')
       NumNodeGroups Ref(:NumNodeGroups)
       ReplicasPerNodeGroup Ref(:ReplicasPerNodeGroup)
-    else 
+    elsif replication_mode.eql?('cache_cluster')
       NumCacheClusters Ref(:NumCacheClusters)
     end 
 
