@@ -4,4 +4,4 @@ test_metadata:
   name: cache-cluster
   description: Using cache cluster mode
 
-  replication_mode: cache_cluster
+replication_mode: cache_cluster

@@ -7,6 +7,6 @@ install:
 before_script:
   - cfndsl -u 9.0.0
 script:
-  - rspec
+  - cfhighlander cftest
   - cfn_nag_scan -i out/tests
   - cfn-lint out/tests/**/*.yaml -i W1020

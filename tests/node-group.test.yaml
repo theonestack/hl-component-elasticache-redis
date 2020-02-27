@@ -4,4 +4,4 @@ test_metadata:
   name: node-group
   description: Using node groups
 
-  replication_mode: node_group
+replication_mode: node_group
