@@ -86,7 +86,7 @@ This will enable the below parameter:
 
 - **SnapshotName** The name of a snapshot from which to restore data into the new replication group
 
-**S3 Snapshot Restore**
+### S3 Snapshot Restore
 
 To restore from RDB snapshot files stored in S3, set the configuration below:
 
