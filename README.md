@@ -98,3 +98,18 @@ This will enable the below parameter:
 
 - **SnapshotArns** A list of ARNs that uniquely identify the Redis RDB snapshot files stored in S3
 
+### Encryption Configuration
+
+By default both encryption at rest and encryption in transit is ON by default. It will also use the default KMS key.
+You can use the below configuration to enable/disable either type of encryption. Be aware that modifying these values causes a replacement on the replication group.
+
+```yaml
+at_rest_encryption: false
+transit_encryption: false
+```
+
+If you wish to provide your own KMS key for encryption you can specify the ARN by setting the config below:
+
+```yaml
+kms_key_id: arn:aws:kms:ap-southeast-2:111111111111:key/12345678-1234-1234-1234-111111111111
+```

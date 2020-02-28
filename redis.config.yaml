@@ -14,10 +14,11 @@ replication_mode:  node_group # | cache_cluster
 
 # minor_upgrade: true
 
-# If encryption is enabled you can optionally proide a KMS key id, otherwise it will use the default
-# enable_encryption: false
+# If at rest encryption is enabled you can optionally proide a KMS key id, otherwise it will use the default
+# at_rest_encryption: true
 # kms_key_id: arn:aws:kms:ap-southeast-2:111111111111:key/12345678-1234-1234-1234-111111111111
-  
+# transit_encryption: true  
+
 # maintenance_window: sun:03:25-sun:05:30
 # snapshot_window: 00:30-02:30
       

@@ -1,7 +1,7 @@
-
 test_metadata:
   type: config
   name: cache-cluster
   description: Using cache cluster mode
 
 replication_mode: cache_cluster
+

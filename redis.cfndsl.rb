@@ -15,6 +15,15 @@ CloudFormation do
     if security_group_rules.any?
       SecurityGroupIngress generate_security_group_rules(security_group_rules,ip_blocks)
     end
+
+    SecurityGroupEgress([
+      {
+        CidrIp: '0.0.0.0/0',
+        Description: "Outbound for all ports",
+        IpProtocol: -1,
+      }
+    ])
+
     Tags redis_tags
   }
 
@@ -51,10 +60,11 @@ CloudFormation do
   engine_version = external_parameters.fetch(:engine_version, nil)
   redis_port = external_parameters.fetch(:redis_port, nil)
 
-  enable_encryption = external_parameters.fetch(:enable_encryption, false)
+  transit_encryption = external_parameters.fetch(:transit_encryption, true)
+  at_rest_encryption = external_parameters.fetch(:at_rest_encryption, true)
   kms_key_id = external_parameters.fetch(:kms_key_id, nil)
 
-  minor_upgrade = external_parameters.fetch(:minor_upgrade, 'true')
+  minor_upgrade = external_parameters.fetch(:minor_upgrade, true)
   snapshot_window = external_parameters.fetch(:snapshot_window, nil)
   maintenance_window = external_parameters.fetch(:maintenance_window, nil)
 
@@ -69,8 +79,9 @@ CloudFormation do
     EngineVersion engine_version unless engine_version.nil?
     Port redis_port unless redis_port.nil?
 
-    AtRestEncryptionEnabled enable_encryption
-    KmsKeyId kms_key_id if (enable_encryption == true) && (!kms_key_id.nil?)
+    TransitEncryptionEnabled transit_encryption
+    AtRestEncryptionEnabled at_rest_encryption
+    KmsKeyId kms_key_id if (at_rest_encryption == true) && (!kms_key_id.nil?)
     AutoMinorVersionUpgrade minor_upgrade
     AutomaticFailoverEnabled automatic_failover
 
