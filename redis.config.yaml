@@ -1,34 +1,38 @@
-maximum_availability_zones: 5
-component_version: 1.0.0
+dns_domain: ${EnvironmentName}.${DnsDomain}
 
-# Restore
-restore_from_s3: false
-restore_from_snapshot: false
-
+# Engine version is not set by default, this value must be provided
 # engine_version: 4.0.10
-family: redis4.0
+# family: redis4.0
 
-minor_upgrade: true
-encrypt: true
+# If cluster_enabled is true, automatic_failover must also be true.
+# cluster_enabled: true
+# automatic_failover: true 
+
+# If replication_mode is set to cache_cluster, you can set the NumCacheClusters property
+# If it is set to node_group, you can set the NumNodeGroups and ReplicasPerNodeGroup properties
+replication_mode:  node_group # | cache_cluster
+
+# minor_upgrade: true
+
+# If at rest encryption is enabled you can optionally proide a KMS key id, otherwise it will use the default
+# at_rest_encryption: true
+# kms_key_id: arn:aws:kms:ap-southeast-2:111111111111:key/12345678-1234-1234-1234-111111111111
+# transit_encryption: true  
 
 # maintenance_window: sun:03:25-sun:05:30
 # snapshot_window: 00:30-02:30
+      
+# parameters:
+#   maxmemory-policy: allkeys-lru
 
-parameters:
-  maxmemory-policy: allkeys-lru
-#
 # redis_port: 6379
 
-security_groups:
--
-  rules:
-  -
-    IpProtocol: tcp
-    FromPort: 6379
-    ToPort: 6379
-  ips:
-  - stack
-
-ip_blocks:
-  local:
-  - 169.254.169.254/32
+# record: redis
+      
+# security_group_rules:
+#   -
+#     protocol: tcp
+#     from: 6379
+#     to: 6379
+#     ip_blocks:
+#       - stack

@@ -1,0 +1,8 @@
+test_metadata:
+  type: config
+  name: non-clustered
+  description: set non-clustered mode config
+
+cluster_enabled: false
+
+automatic_failover: false

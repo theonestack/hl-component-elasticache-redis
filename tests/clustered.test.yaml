@@ -1,0 +1,30 @@
+test_metadata:
+  type: config
+  name: clustered
+  description: explicitly set clustered with some common config
+
+cluster_enabled: true
+
+automatic_failover: true
+
+maintenance_window: sun:03:25-sun:05:30
+snapshot_window: 00:30-02:30
+
+redis_port: 1234
+
+parameters:
+  maxmemory-policy: allkeys-lru
+
+security_group_rules:
+-
+  protocol: tcp
+  from: 6379
+  to: 6379
+  ip_blocks:
+    - public
+  desc: Public access
+
+ip_blocks:
+  public:
+    - 0.0.0.0/0
+
