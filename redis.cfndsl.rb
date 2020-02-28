@@ -19,8 +19,8 @@ CloudFormation do
     SecurityGroupEgress([
       {
         CidrIp: '0.0.0.0/0',
-        Description: "Outbound for all ports",
-        IpProtocol: -1,
+        Description: 'Outbound for all ports',
+        IpProtocol: '-1',
       }
     ])
 

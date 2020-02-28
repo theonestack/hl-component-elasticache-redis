@@ -1,7 +1,0 @@
-test_metadata:
-  type: config
-  name: encryption-off
-  description: Turn off encryption on the replication group
-
-at_rest_encryption: false
-transit_encryption: false

@@ -22,9 +22,9 @@ security_group_rules:
   to: 6379
   ip_blocks:
     - public
+  desc: Public access
 
 ip_blocks:
   public:
     - 0.0.0.0/0
 
-at_rest_encryption: false
