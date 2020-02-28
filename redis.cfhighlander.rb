@@ -33,14 +33,14 @@ CfhighlanderTemplate do
       description: 'Comma-delimited list of subnets to launch redis in'
 
     if replication_mode.eql?('node_group')
-      ComponentParam 'NumNodeGroups', 1,
+      ComponentParam 'NumNodeGroups', '1',
         description: 'Specifies the number of node groups (shards) for this Redis replication group'
-      ComponentParam 'ReplicasPerNodeGroup', 0,
-        allowedValues: [0, 1, 2, 3, 4, 5],
+      ComponentParam 'ReplicasPerNodeGroup', '0',
+        allowedValues: ['0', '1', '2', '3', '4', '5'],
         description: 'An optional parameter that specifies the number of replica nodes in each node group (shard). Valid values are 0 to 5.'
     elsif replication_mode.eql?('cache_cluster')
-      ComponentParam 'NumCacheClusters', 2,
-        allowedValues: [1, 2, 3, 4, 5, 6],
+      ComponentParam 'NumCacheClusters', '2',
+        allowedValues: ['1', '2', '3', '4', '5', '6'],
         description: 'The number of clusters this replication group initially has'
     end
 
