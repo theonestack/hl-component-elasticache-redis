@@ -1,4 +1,5 @@
 dns_domain: ${EnvironmentName}.${DnsDomain}
+create_route53_record: true
 
 # Engine version is not set by default, this value must be provided
 # engine_version: 4.0.10

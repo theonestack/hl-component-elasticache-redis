@@ -118,12 +118,14 @@ CloudFormation do
   dns_domain = external_parameters.fetch(:dns_domain)
   record = external_parameters.fetch(:record, 'redis')
 
-  Route53_RecordSet(:HostRecordRedis) {
-    HostedZoneName FnSub("#{dns_domain}.")
-    Name FnSub("#{record}.#{dns_domain}.")
-    Type 'CNAME'
-    TTL '60'
-    ResourceRecords [ FnGetAtt(:ReplicationGroupRedis, record_endpoint) ]
-  }
+  if !external_parameters[:create_route53_record]
+    Route53_RecordSet(:HostRecordRedis) {
+      HostedZoneName FnSub("#{dns_domain}.")
+      Name FnSub("#{record}.#{dns_domain}.")
+      Type 'CNAME'
+      TTL '60'
+      ResourceRecords [ FnGetAtt(:ReplicationGroupRedis, record_endpoint) ]
+    }
+  end
 
 end
