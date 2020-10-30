@@ -38,7 +38,7 @@ CloudFormation do
   }
 
   custom_parameters = external_parameters.fetch(:parameters, [])
-  family = external_parameters.fetch(:family, 'redis4.0')
+  family = external_parameters.fetch(:family, 'redis6.0')
   cluster_enabled = external_parameters.fetch(:cluster_enabled, 'true')
 
   if cluster_enabled
