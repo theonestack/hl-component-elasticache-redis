@@ -26,7 +26,7 @@ CfhighlanderTemplate do
     ComponentParam 'SnapshotRetentionLimit',
       description: 'The number of days for which ElastiCache retains automatic snapshots before deleting them.'
 
-    ComponentParam 'InstanceType', 't3.small',
+    ComponentParam 'InstanceType', 'cache.t3.small',
       description: 'The compute and memory capacity of the nodes in the node group (shard)'
 
     ComponentParam 'Subnets', type: 'CommaDelimitedList',
