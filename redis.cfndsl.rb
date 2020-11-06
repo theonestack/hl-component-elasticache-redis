@@ -128,4 +128,14 @@ CloudFormation do
     }
   end
 
+  Output(:RedisHostEndpoint) {
+    Value(FnGetAtt(:ReplicationGroupRedis, record_endpoint))
+    Export FnSub("${EnvironmentName}-#{external_parameters[:component_name]}-RedisHostEndpoint")
+  }
+
+  Output(:RedisReadAddresses) {
+    Value(FnGetAtt(:ReplicationGroupRedis, 'ReadEndPoint.Addresses'))
+    Export FnSub("${EnvironmentName}-#{external_parameters[:component_name]}-RedisReadAddresses")
+  } unless cluster_enabled
+
 end
