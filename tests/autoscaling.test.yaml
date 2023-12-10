@@ -1,0 +1,32 @@
+transit_encryption: false
+at_rest_encryption: false
+engine_version: 7.1
+family: redis7
+record: redis7
+dns_domain: ${DnsDomain}
+minor_upgrade: false
+replication_mode: node_group
+cluster_enabled: true
+automatic_failover: true
+ip_blocks:
+  vpn:
+    - 10.200.4.0/24
+security_group_rules:
+  - from: 6379
+    ip_blocks:
+      - vpn
+    desc: to communicate thrue AWS VPN
+# Only for Instance type families - R7g, R6g, R5, M7g, M6g, M5, C7gn
+# Only for Instance sizes - Large, XLarge, 2XLarge
+service_namespace: elasticache
+scaling_policy:
+  - metric_type: ElastiCacheReplicaEngineCPUUtilization
+    scale_in_cooldown: 180
+    scale_out_cooldown: 60
+    target_value: 70
+    target: replicas
+  - metric_type: ElastiCacheDatabaseCapacityUsageCountedForEvictPercentage
+    scale_in_cooldown: 180
+    scale_out_cooldown: 60
+    target_value: 70
+    target: shards

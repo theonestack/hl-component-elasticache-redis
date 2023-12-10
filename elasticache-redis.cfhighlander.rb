@@ -44,6 +44,27 @@ CfhighlanderTemplate do
         description: 'The number of clusters this replication group initially has'
     end
 
+    if defined?(service_namespace)
+      case service_namespace
+      when 'elasticache'
+        ComponentParam 'ReplicationGroupRedis', ''
+        ComponentParam 'Min', 1
+        ComponentParam 'Max', 10 # deep inside will be overriden
+      end
+    end
+
+  end
+
+  if defined?(service_namespace)
+    unless service_namespace.nil?
+      if service_namespace == 'elasticache'
+        Component template: 'elasticache-scaling', name: 'autoscaling', render: Inline, config: @config do
+          parameter name: 'ReplicationGroupRedis', value: Ref(:ReplicationGroupRedis)
+          parameter name: 'Min', value: 1
+          parameter name: 'Max', value: 10 # deep inside will be overriden
+        end
+      end
+    end
   end
 
 end
