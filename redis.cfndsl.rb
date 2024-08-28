@@ -1,7 +1,9 @@
 CloudFormation do
+
+  export = external_parameters.fetch(:export_name, external_parameters[:component_name])
   
   redis_tags = []
-  redis_tags << { Key: 'Name', Value: FnSub("${EnvironmentName}-#{external_parameters[:component_name]}") }
+  redis_tags << { Key: 'Name', Value: FnSub("${EnvironmentName}-#{export}") }
   redis_tags << { Key: 'Environment', Value: Ref(:EnvironmentName) }
   redis_tags << { Key: 'EnvironmentType', Value: Ref(:EnvironmentType) }
 
@@ -10,7 +12,7 @@ CloudFormation do
 
   EC2_SecurityGroup(:SecurityGroupRedis) {
     VpcId Ref(:VPCId)
-    GroupDescription FnSub("${EnvironmentName}-#{external_parameters[:component_name]}")
+    GroupDescription FnSub("${EnvironmentName}-#{export}")
     
     if security_group_rules.any?
       SecurityGroupIngress generate_security_group_rules(security_group_rules,ip_blocks)
@@ -29,11 +31,11 @@ CloudFormation do
 
   Output(:RedisSecurityGroupId) {
     Value Ref(:SecurityGroupRedis)
-    Export FnSub("${EnvironmentName}-#{external_parameters[:component_name]}-RedisSecurityGroup")
+    Export FnSub("${EnvironmentName}-#{export}-RedisSecurityGroup")
   }
 
   ElastiCache_SubnetGroup(:SubnetGroupRedis) {
-    Description FnSub("${EnvironmentName}-#{external_parameters[:component_name]}")
+    Description FnSub("${EnvironmentName}-#{export}")
     SubnetIds Ref(:Subnets)
   }
 
@@ -53,7 +55,7 @@ CloudFormation do
 
   ElastiCache_ParameterGroup(:ParameterGroupRedis) {
     CacheParameterGroupFamily family
-    Description FnSub("${EnvironmentName}-#{external_parameters[:component_name]}")
+    Description FnSub("${EnvironmentName}-#{export}")
     Properties final_parameters
   }
 
@@ -73,7 +75,7 @@ CloudFormation do
 
   ElastiCache_ReplicationGroup(:ReplicationGroupRedis) {
 
-    ReplicationGroupDescription FnSub("${EnvironmentName}-#{external_parameters[:component_name]}")
+    ReplicationGroupDescription FnSub("${EnvironmentName}-#{export}")
 
     Engine 'redis'
     EngineVersion engine_version unless engine_version.nil?
@@ -130,12 +132,12 @@ CloudFormation do
 
   Output(:RedisHostEndpoint) {
     Value(FnGetAtt(:ReplicationGroupRedis, record_endpoint))
-    Export FnSub("${EnvironmentName}-#{external_parameters[:component_name]}-RedisHostEndpoint")
+    Export FnSub("${EnvironmentName}-#{export}-RedisHostEndpoint")
   }
 
   Output(:RedisReadAddresses) {
     Value(FnGetAtt(:ReplicationGroupRedis, 'ReadEndPoint.Addresses'))
-    Export FnSub("${EnvironmentName}-#{external_parameters[:component_name]}-RedisReadAddresses")
+    Export FnSub("${EnvironmentName}-#{export}-RedisReadAddresses")
   } unless cluster_enabled
 
 end
