@@ -2,7 +2,7 @@ CloudFormation do
 
   export = external_parameters.fetch(:export_name, external_parameters[:component_name])
   
-  redis_tags = []
+  redis_tags = external_parameters.fetch(:tags, [])
   redis_tags << { Key: 'Name', Value: FnSub("${EnvironmentName}-#{export}") }
   redis_tags << { Key: 'Environment', Value: Ref(:EnvironmentName) }
   redis_tags << { Key: 'EnvironmentType', Value: Ref(:EnvironmentType) }
