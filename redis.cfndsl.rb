@@ -78,11 +78,13 @@ CloudFormation do
   replication_mode = external_parameters.fetch(:replication_mode, 'node_group')
   automatic_failover = external_parameters.fetch(:automatic_failover, true)
 
+  engine = external_parameters.fetch(:engine, 'redis')
+
   ElastiCache_ReplicationGroup(:ReplicationGroupRedis) {
 
     ReplicationGroupDescription FnSub("${EnvironmentName}-#{export}")
 
-    Engine 'redis'
+    Engine engine
     EngineVersion engine_version unless engine_version.nil?
     Port redis_port unless redis_port.nil?
 
