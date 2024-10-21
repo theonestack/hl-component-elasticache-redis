@@ -22,6 +22,7 @@ describe 'should be valid' do
         "CacheNodeType" => {"Ref"=>"InstanceType"},
         "CacheParameterGroupName" => {"Ref"=>"ParameterGroupRedis"},
         "CacheSubnetGroupName" => {"Ref"=>"SubnetGroupRedis"},
+        "DataTieringEnabled" => {"Fn::If"=>["DataTieringEnabled", {"Ref"=>"DataTieringEnabled"}, {"Ref"=>"AWS::NoValue"}]},
         "Engine" => "redis",
         "NumCacheClusters" => {"Ref"=>"NumCacheClusters"},
         "ReplicationGroupDescription" => {"Fn::Sub"=>"${EnvironmentName}-redis"},

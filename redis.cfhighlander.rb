@@ -44,6 +44,9 @@ CfhighlanderTemplate do
         description: 'The number of clusters this replication group initially has'
     end
 
+    ComponentParam 'DataTieringEnabled', 'false', allowedValues: ['false', 'true'],
+      description: 'Enables DataTiering and requires InstanceType to be a r6gd type'
+
   end
 
 end
