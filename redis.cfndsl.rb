@@ -78,6 +78,8 @@ CloudFormation do
   replication_mode = external_parameters.fetch(:replication_mode, 'node_group')
   automatic_failover = external_parameters.fetch(:automatic_failover, true)
 
+  Condition('DataTieringEnabled', FnEquals(Ref(:DataTieringEnabled), 'true'))
+
   engine = external_parameters.fetch(:engine, 'redis')
 
   ElastiCache_ReplicationGroup(:ReplicationGroupRedis) {
@@ -93,6 +95,8 @@ CloudFormation do
     KmsKeyId kms_key_id if (at_rest_encryption == true) && (!kms_key_id.nil?)
     AutoMinorVersionUpgrade minor_upgrade
     AutomaticFailoverEnabled automatic_failover
+
+    DataTieringEnabled FnIf('DataTieringEnabled', Ref(:DataTieringEnabled), Ref('AWS::NoValue'))
 
     CacheNodeType Ref(:InstanceType)
     CacheParameterGroupName Ref(:ParameterGroupRedis)
