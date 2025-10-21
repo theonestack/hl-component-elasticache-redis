@@ -4,7 +4,7 @@ describe 'should be valid' do
   
   context 'cftest' do
     it 'compiles test' do
-      expect(system("cfhighlander cftest --tests tests/default.test.yaml")).to be_truthy
+      expect(system("cfhighlander cftest #{@validate} --tests tests/default.test.yaml")).to be_truthy
     end
   end
 
@@ -28,6 +28,8 @@ describe 'should be valid' do
         "ReplicasPerNodeGroup" => {"Ref"=>"ReplicasPerNodeGroup"},
         "ReplicationGroupDescription" => {"Fn::Sub"=>"${EnvironmentName}-redis"},
         "SecurityGroupIds" => [{"Ref"=>"SecurityGroupRedis"}],
+        "SnapshotArns" => {"Fn::If" => ["NoSnapshotArnsEnabled", {"Ref" => "AWS::NoValue"}, {"Fn::Split" => [",", {"Ref" => "SnapshotArns"}]}]},
+        "SnapshotName" => {"Fn::If" => ["NoSnapshotNamEnabled", {"Ref" => "AWS::NoValue"}, {"Ref" => "SnapshotName"}]},
         "SnapshotRetentionLimit" => {"Ref"=>"SnapshotRetentionLimit"},
         "Tags" => [
           {"Key"=>"Name", "Value"=>{"Fn::Sub"=>"${EnvironmentName}-redis"}},
