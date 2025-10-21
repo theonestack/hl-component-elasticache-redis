@@ -18,7 +18,7 @@ CfhighlanderTemplate do
     ComponentParam 'SnapshotName', '',
       description: 'The name of a snapshot from which to restore data into the new replication group'
 
-      ComponentParam 'SnapshotArns', '', type: 'CommaDelimitedList',
+      ComponentParam 'SnapshotArns', '',
         description: 'A list of ARNs that uniquely identify the Redis RDB snapshot files stored in S3'
 
     ComponentParam 'SnapshotRetentionLimit',

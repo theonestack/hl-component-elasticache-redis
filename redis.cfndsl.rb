@@ -114,7 +114,7 @@ CloudFormation do
     end 
 
     SnapshotName FnIf('NoSnapshotNamEnabled', Ref('AWS::NoValue'), Ref(:SnapshotName))
-    SnapshotArns FnIf('NoSnapshotArnsEnabled', Ref('AWS::NoValue'), Ref(:SnapshotArns))
+    SnapshotArns FnIf('NoSnapshotArnsEnabled', Ref('AWS::NoValue'), FnSplit(",", Ref(:SnapshotArns)))
     SnapshotRetentionLimit Ref(:SnapshotRetentionLimit)
 
     SnapshotWindow snapshot_window unless snapshot_window.nil?

@@ -27,7 +27,7 @@ describe 'should be valid' do
         "NumCacheClusters" => {"Ref"=>"NumCacheClusters"},
         "ReplicationGroupDescription" => {"Fn::Sub"=>"${EnvironmentName}-redis"},
         "SecurityGroupIds" => [{"Ref"=>"SecurityGroupRedis"}],
-        "SnapshotArns" => {"Fn::If" => ["NoSnapshotArnsEnabled", {"Ref" => "AWS::NoValue"}, {"Ref" => "SnapshotArns"}]},
+        "SnapshotArns" => {"Fn::If" => ["NoSnapshotArnsEnabled", {"Ref" => "AWS::NoValue"}, {"Fn::Split" => [",", {"Ref" => "SnapshotArns"}]}]},
         "SnapshotName" => {"Fn::If" => ["NoSnapshotNamEnabled", {"Ref" => "AWS::NoValue"}, {"Ref" => "SnapshotName"}]},
         "SnapshotRetentionLimit" => {"Ref"=>"SnapshotRetentionLimit"},
         "Tags" => [
