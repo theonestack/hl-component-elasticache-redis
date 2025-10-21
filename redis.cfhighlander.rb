@@ -15,10 +15,10 @@ CfhighlanderTemplate do
 
     ComponentParam 'DnsDomain'
 
-    ComponentParam 'SnapshotName',
+    ComponentParam 'SnapshotName', '',
       description: 'The name of a snapshot from which to restore data into the new replication group'
 
-      ComponentParam 'SnapshotArns', type: 'CommaDelimitedList',
+      ComponentParam 'SnapshotArns', '', type: 'CommaDelimitedList',
         description: 'A list of ARNs that uniquely identify the Redis RDB snapshot files stored in S3'
 
     ComponentParam 'SnapshotRetentionLimit',
