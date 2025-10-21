@@ -79,6 +79,8 @@ CloudFormation do
   automatic_failover = external_parameters.fetch(:automatic_failover, true)
 
   Condition('DataTieringEnabled', FnEquals(Ref(:DataTieringEnabled), 'true'))
+  Condition('NoSnapshotNamEnabled', FnEquals(Ref(:SnapshotName), ''))
+  Condition('NoSnapshotArnsEnabled', FnEquals(Ref(:SnapshotArns), ''))
 
   engine = external_parameters.fetch(:engine, 'redis')
 
@@ -111,14 +113,8 @@ CloudFormation do
       NumCacheClusters Ref(:NumCacheClusters)
     end 
 
-    snapshot_restore_type = external_parameters.fetch(:snapshot_restore_type, nil)
-
-    if snapshot_restore_type.eql?('native')
-      SnapshotName Ref(:SnapshotName)
-    elsif snapshot_restore_type.eql?('s3')
-      SnapshotArns Ref(:SnapshotArns)
-    end unless snapshot_restore_type.nil?
-
+    SnapshotName FnIf('NoSnapshotNamEnabled', Ref('AWS::NoValue'), Ref(:SnapshotName))
+    SnapshotArns FnIf('NoSnapshotArnsEnabled', Ref('AWS::NoValue'), Ref(:SnapshotArns))
     SnapshotRetentionLimit Ref(:SnapshotRetentionLimit)
 
     SnapshotWindow snapshot_window unless snapshot_window.nil?

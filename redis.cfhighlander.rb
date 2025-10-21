@@ -15,13 +15,11 @@ CfhighlanderTemplate do
 
     ComponentParam 'DnsDomain'
 
-    if snapshot_restore_type.eql?('native')
-      ComponentParam 'SnapshotName',
-        description: 'The name of a snapshot from which to restore data into the new replication group'
-    elsif snapshot_restore_type.eql?('s3')
+    ComponentParam 'SnapshotName',
+      description: 'The name of a snapshot from which to restore data into the new replication group'
+
       ComponentParam 'SnapshotArns', type: 'CommaDelimitedList',
         description: 'A list of ARNs that uniquely identify the Redis RDB snapshot files stored in S3'
-    end if defined? snapshot_restore_type
 
     ComponentParam 'SnapshotRetentionLimit',
       description: 'The number of days for which ElastiCache retains automatic snapshots before deleting them.'

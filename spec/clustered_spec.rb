@@ -30,6 +30,8 @@ describe 'should be valid' do
         "ReplicasPerNodeGroup" => {"Ref"=>"ReplicasPerNodeGroup"},
         "ReplicationGroupDescription" => {"Fn::Sub"=>"${EnvironmentName}-redis"},
         "SecurityGroupIds" => [{"Ref"=>"SecurityGroupRedis"}],
+        "SnapshotArns" => {"Fn::If" => ["NoSnapshotArnsEnabled", {"Ref" => "AWS::NoValue"}, {"Ref" => "SnapshotArns"}]},
+        "SnapshotName" => {"Fn::If" => ["NoSnapshotNamEnabled", {"Ref" => "AWS::NoValue"}, {"Ref" => "SnapshotName"}]},
         "SnapshotRetentionLimit" => {"Ref"=>"SnapshotRetentionLimit"},
         "SnapshotWindow" => "00:30-02:30",
         "Tags" => [
