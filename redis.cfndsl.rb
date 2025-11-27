@@ -68,6 +68,7 @@ CloudFormation do
   redis_port = external_parameters.fetch(:redis_port, nil)
 
   transit_encryption = external_parameters.fetch(:transit_encryption, true)
+  transit_encryption_mode = external_parameters.fetch(:transit_encryption_mode, '')
   at_rest_encryption = external_parameters.fetch(:at_rest_encryption, true)
   kms_key_id = external_parameters.fetch(:kms_key_id, nil)
 
@@ -93,6 +94,7 @@ CloudFormation do
     Port redis_port unless redis_port.nil?
 
     TransitEncryptionEnabled transit_encryption
+    TransitEncryptionMode transit_encryption_mode if !transit_encryption_mode.empty?
     AtRestEncryptionEnabled at_rest_encryption
     KmsKeyId kms_key_id if (at_rest_encryption == true) && (!kms_key_id.nil?)
     AutoMinorVersionUpgrade minor_upgrade
