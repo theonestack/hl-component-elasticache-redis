@@ -87,6 +87,8 @@ CloudFormation do
 
   ElastiCache_ReplicationGroup(:ReplicationGroupRedis) {
 
+    UpdatePolicy "UseOnlineResharding", Ref(:UseOnlineResharding)
+
     ReplicationGroupDescription FnSub("${EnvironmentName}-#{export}")
 
     Engine engine
