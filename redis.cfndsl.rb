@@ -103,6 +103,7 @@ CloudFormation do
     AutomaticFailoverEnabled automatic_failover
 
     DataTieringEnabled FnIf('DataTieringEnabled', Ref(:DataTieringEnabled), Ref('AWS::NoValue'))
+    MultiAZEnabled Ref(:MultiAZEnabled)
 
     CacheNodeType Ref(:InstanceType)
     CacheParameterGroupName Ref(:ParameterGroupRedis)

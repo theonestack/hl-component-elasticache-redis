@@ -46,7 +46,8 @@ CfhighlanderTemplate do
       description: 'Enables DataTiering and requires InstanceType to be a r6gd type'
 
     ComponentParam 'UseOnlineResharding', 'false', allowedValues: ['false', 'true']
-
+    ComponentParam 'MultiAZEnabled', 'false', allowedValues: ['false', 'true']
+    
   end
 
 end
