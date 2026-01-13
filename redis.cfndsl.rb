@@ -80,12 +80,14 @@ CloudFormation do
   automatic_failover = external_parameters.fetch(:automatic_failover, true)
 
   Condition('DataTieringEnabled', FnEquals(Ref(:DataTieringEnabled), 'true'))
-  Condition('NoSnapshotNamEnabled', FnEquals(Ref(:SnapshotName), ''))
+  Condition('NoSnapshotNameEnabled', FnEquals(Ref(:SnapshotName), ''))
   Condition('NoSnapshotArnsEnabled', FnEquals(Ref(:SnapshotArns), ''))
 
   engine = external_parameters.fetch(:engine, 'redis')
 
   ElastiCache_ReplicationGroup(:ReplicationGroupRedis) {
+
+    UpdatePolicy "UseOnlineResharding", Ref(:UseOnlineResharding)
 
     ReplicationGroupDescription FnSub("${EnvironmentName}-#{export}")
 
@@ -101,6 +103,7 @@ CloudFormation do
     AutomaticFailoverEnabled automatic_failover
 
     DataTieringEnabled FnIf('DataTieringEnabled', Ref(:DataTieringEnabled), Ref('AWS::NoValue'))
+    MultiAZEnabled Ref(:MultiAZEnabled)
 
     CacheNodeType Ref(:InstanceType)
     CacheParameterGroupName Ref(:ParameterGroupRedis)
@@ -115,7 +118,7 @@ CloudFormation do
       NumCacheClusters Ref(:NumCacheClusters)
     end 
 
-    SnapshotName FnIf('NoSnapshotNamEnabled', Ref('AWS::NoValue'), Ref(:SnapshotName))
+    SnapshotName FnIf('NoSnapshotNameEnabled', Ref('AWS::NoValue'), Ref(:SnapshotName))
     SnapshotArns FnIf('NoSnapshotArnsEnabled', Ref('AWS::NoValue'), FnSplit(",", Ref(:SnapshotArns)))
     SnapshotRetentionLimit Ref(:SnapshotRetentionLimit)
 
