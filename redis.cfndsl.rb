@@ -79,6 +79,8 @@ CloudFormation do
   replication_mode = external_parameters.fetch(:replication_mode, 'node_group')
   automatic_failover = external_parameters.fetch(:automatic_failover, true)
 
+  multi_az_enabled = external_parameters.fetch(:multi_az_enabled, '')
+
   Condition('DataTieringEnabled', FnEquals(Ref(:DataTieringEnabled), 'true'))
   Condition('NoSnapshotNamEnabled', FnEquals(Ref(:SnapshotName), ''))
   Condition('NoSnapshotArnsEnabled', FnEquals(Ref(:SnapshotArns), ''))
@@ -95,6 +97,7 @@ CloudFormation do
 
     TransitEncryptionEnabled transit_encryption
     TransitEncryptionMode transit_encryption_mode if !transit_encryption_mode.empty?
+    MultiAZEnabled multi_az_enabled if !multi_az_enabled.empty?
     AtRestEncryptionEnabled at_rest_encryption
     KmsKeyId kms_key_id if (at_rest_encryption == true) && (!kms_key_id.nil?)
     AutoMinorVersionUpgrade minor_upgrade
